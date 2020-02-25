@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
+const expressGraphQL = require('express-graphql')
 
 const db = require('./config/keys').mongoURI;
 
@@ -10,7 +11,14 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => res.send("<div style='display: inline-block; background-color: pink; width: 50px; height: 50px; cursor: pointer;'></div><div style='display: inline-block; background-color: cornflowerblue; width: 50px; height: 50px; cursor: pointer;'></div>"));
+// app.get("/", (req, res) => res.send("<div style='display: inline-block; background-color: pink; width: 50px; height: 50px; cursor: pointer;'></div><div style='display: inline-block; background-color: cornflowerblue; width: 50px; height: 50px; cursor: pointer;'></div>"));
+
+app.use(
+  "/graphql",
+  expressGraphQL({
+    graphiql: true
+  })
+);
 app.use(bodyParser.json());
 
 app.listen(5000, () => console.log("Server running on port 5000"));
